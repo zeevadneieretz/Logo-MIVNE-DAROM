@@ -26928,6 +26928,16 @@
   "changefreq": "yearly"
  },
  {
+  "template": "redirect.html",
+  "slug": "קטלוגים-פנל-מבודד",
+  "title": "מעבר לעמוד המעודכן | מבנה דרום",
+  "description": "העמוד עבר לכתובת חדשה.",
+  "h1": "",
+  "target": "תווי-תקן",
+  "priority": "0.1",
+  "changefreq": "yearly"
+ },
+ {
   "template": "404.html",
   "slug": "404",
   "title": "העמוד לא נמצא | מבנה דרום",
