@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_hero(page, [{'label': page.h1}]) }}
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid-3">
+      {% for c in page.cards %}
+      <article class="card reveal d{{ loop.index0 % 3 }}">
+        {% if c.img %}
+        <div class="card-img contain"><img src="{{ c.img }}" alt="{{ c.alt }}" loading="lazy"></div>
+        {% endif %}
+        <div class="card-body">
+          <h3>{{ c.title }}</h3>
+          {% if c.desc %}<p>{{ c.desc }}</p>{% endif %}
+          <span class="card-link">לפרטים {{ m.arrow_start() }}</span>
+        </div>
+        <a class="stretched" href="/{{ c.slug|urlquote }}/" aria-label="{{ c.title }}"></a>
+      </article>
+      {% endfor %}
+    </div>
+    {% if page.extra_link %}
+    <div class="center mt-3">
+      <a class="btn btn-dark btn-lg" href="/{{ page.extra_link.slug|urlquote }}/">{{ m.icon('download') }} {{ page.extra_link.label }}</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% if page.blocks %}
+<section class="section section-paper">
+  <div class="container prose">
+    {{ m.render_blocks(page.blocks) }}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

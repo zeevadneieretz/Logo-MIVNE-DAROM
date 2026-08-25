@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block jsonld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ page.h1|tojson }},
+  "description": {{ page.description|tojson }},
+  {% if page.images and page.images[0].src %}"image": "{{ site.url }}{{ page.images[0].src }}",{% endif %}
+  "author": { "@type": "Organization", "name": "מבנה דרום" },
+  "publisher": { "@id": "{{ site.url }}/#org" },
+  "mainEntityOfPage": "{{ canonical }}",
+  "inLanguage": "he"
+}
+</script>
+{% endblock %}
+
+{% block content %}
+{{ m.page_hero(page, [{'slug': 'מאמרים', 'label': 'מאמרים'}, {'label': page.h1}]) }}
+
+<section class="section">
+  <div class="container prose">
+    {% if page.images and page.images[0].src %}
+    <img src="{{ page.images[0].src }}" alt="{{ page.images[0].alt or page.h1 }}" width="820" height="500" style="width:100%; object-fit:cover; max-height:420px">
+    {% endif %}
+    {{ m.render_blocks(page.blocks) }}
+
+    <blockquote>
+      יש לכם שאלה מקצועית? צוות המומחים של מבנה דרום ישמח לייעץ —
+      <a href="tel:{{ site.contact.phone_tel }}"><span dir="ltr">{{ site.contact.phone }}</span></a>
+      או <a href="/צור-קשר/">השאירו פרטים</a> ונחזור אליכם.
+    </blockquote>
+  </div>
+</section>
+
+<section class="section section-paper">
+  <div class="container">
+    <div class="sec-head"><h2>מאמרים נוספים</h2></div>
+    <div class="grid grid-3">
+      {% set shown = [] %}
+      {% for p in pages if p.template == 'article.html' and p.slug != page.slug %}
+      {% if shown|length < 3 %}
+      {% set _ = shown.append(1) %}
+      <article class="card">
+        {% if p.images and p.images[0].src %}
+        <div class="card-img"><img src="{{ p.images[0].src }}" alt="{{ p.h1 }}" loading="lazy"></div>
+        {% endif %}
+        <div class="card-body">
+          <h3>{{ p.h1 }}</h3>
+          <span class="card-link">לקריאה {{ m.arrow_start() }}</span>
+        </div>
+        <a class="stretched" href="/{{ p.slug|urlquote }}/" aria-label="{{ p.h1 }}"></a>
+      </article>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

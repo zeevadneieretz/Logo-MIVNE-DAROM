@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_hero(page, [{'label': page.h1}]) }}
+
+<section class="section">
+  <div class="container">
+    <p class="prose" style="font-size:1.12rem; max-width:820px">{{ page.intro }}</p>
+    <div class="badges" style="margin-top:1rem">
+      <span class="badge">{{ m.icon('shield') }} ת"י 755 — עמידות אש</span>
+      <span class="badge">{{ m.icon('check') }} ISO 9001 — איכות</span>
+      <span class="badge">{{ m.icon('check') }} ISO 14001 — סביבה</span>
+      <span class="badge">{{ m.icon('check') }} ISO 45001 — בטיחות</span>
+    </div>
+  </div>
+</section>
+
+<section class="section section-paper">
+  <div class="container">
+    <div class="sec-head">
+      <p class="overline">שקיפות מלאה</p>
+      <h2>התעודות והאישורים — להורדה</h2>
+    </div>
+    <div class="grid grid-4">
+      {% for c in page.certs %}
+      <a class="cert-card reveal d{{ loop.index0 % 4 }}" href="{{ c.href }}" target="_blank" rel="noopener">
+        {% if c.img %}
+        <img src="{{ c.img }}" alt="" loading="lazy" style="max-height:150px; width:auto; border:1px solid var(--line); border-radius:8px">
+        {% else %}
+        <span class="cicon">{{ m.icon('doc') }}</span>
+        {% endif %}
+        <span>{{ c.title }}</span>
+        <span class="dl">{{ m.icon('download') }} לצפייה והורדה</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

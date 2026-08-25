@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block jsonld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ page.h1|tojson }},
+  "description": {{ page.description|tojson }},
+  {% if page.images and page.images[0].src %}"image": "{{ site.url }}{{ page.images[0].src }}",{% endif %}
+  "brand": { "@type": "Brand", "name": "מבנה דרום" },
+  "manufacturer": { "@id": "{{ site.url }}/#org" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "דף הבית", "item": "{{ site.url }}/" },
+    { "@type": "ListItem", "position": 2, "name": {{ (page.category or '')|tojson }}, "item": "{{ site.url }}/{{ page.category|urlquote }}/" },
+    { "@type": "ListItem", "position": 3, "name": {{ page.h1|tojson }} }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+{% set cat_label = {'פנלים-מבודדים-לגגות':'פנלים מבודדים לגגות','פנלים-מבודדים-לקירות':'פנלים מבודדים לקירות','פנלים-מבודדים-מאלומיניום':'פנלים מבודדים מאלומיניום','מוצרים-משלימים':'אביזרים משלימים'}[page.category] %}
+{{ m.page_hero(page, [{'slug': page.category, 'label': cat_label}, {'label': page.h1}]) }}
+
+<section class="section">
+  <div class="container">
+    <div class="split" style="align-items:flex-start">
+      <div>
+        {% if page.core %}
+        <div class="badges" style="margin-bottom:1.2rem">
+          <span class="badge">{{ m.icon('layers') }} ליבה: {{ page.core }}</span>
+          <span class="badge">{{ m.icon('shield') }} ת"י 755</span>
+        </div>
+        {% endif %}
+        {% if page.intro %}<p style="font-size:1.14rem; color:var(--head); font-weight:500">{{ page.intro }}</p>{% endif %}
+
+        {% if page.kv %}
+        <h2 style="font-size:1.35rem">נתונים טכניים</h2>
+        <ul class="kv">
+          {% for i in page.kv %}
+          <li><b>{{ i.k }}</b><span>{{ i.v }}</span></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="hero-ctas" style="margin-top:1.4rem">
+          <a class="btn btn-primary" href="/צור-קשר/">הצעת מחיר למוצר זה</a>
+          <a class="btn btn-whatsapp" href="{{ site.contact.whatsapp }}?text={{ ('שלום, אשמח להצעת מחיר עבור ' ~ page.h1)|urlencode }}" target="_blank" rel="noopener">ייעוץ ב-WhatsApp</a>
+        </div>
+      </div>
+
+      {% if page.images %}
+      <div>
+        <div class="media" style="border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow-2); background:#fff;">
+          <a href="{{ page.images[0].src }}" data-lightbox>
+            <img src="{{ page.images[0].src }}" alt="{{ page.images[0].alt or page.h1 }}" width="800" height="600" style="width:100%; object-fit:contain; background:#fff">
+          </a>
+        </div>
+        {% if page.images|length > 1 %}
+        <div class="gallery" style="margin-top:.8rem; grid-template-columns: repeat(4, 1fr);">
+          {% for im in page.images[1:9] %}
+          <a href="{{ im.src }}" data-lightbox aria-label="{{ im.alt or page.h1 }}"><img src="{{ im.src }}" alt="{{ im.alt }}" loading="lazy"></a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% if page.blocks %}
+<section class="section section-paper">
+  <div class="container prose">
+    {{ m.render_blocks(page.blocks) }}
+  </div>
+</section>
+{% endif %}
+
+{% if page.tables %}
+<section class="section" aria-labelledby="tables-title">
+  <div class="container">
+    <div class="sec-head">
+      <p class="overline">מידות ועומסים</p>
+      <h2 id="tables-title">טבלאות מידות, משקלים ועומסים</h2>
+      <p class="sub">הנתונים המלאים לתכנון הנדסי — מפתחים בס"מ לפי עובי פאנל וצורת הסמכה</p>
+    </div>
+    {% for t in page.tables %}
+    {{ m.spec_table(t) }}
+    {% endfor %}
+    <p class="table-note">* הנתונים להתרשמות כללית. לתכנון מפורט יש להיוועץ במהנדס החברה. מומלץ לעיין גם ב<a href="/פנלים-מבודדים-מידות/">עמוד המידות המרוכז</a>.</p>
+    <div class="center mt-2">
+      <a class="btn btn-primary btn-lg" href="/צור-קשר/">בקשת הצעת מחיר ל{{ page.h1 }}</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section{% if not page.tables %} section-paper{% endif %}">
+  <div class="container">
+    <div class="sec-head">
+      <h2>מוצרים קשורים</h2>
+    </div>
+    <div class="grid grid-3">
+      {% set related = [] %}
+      {% for p in pages if p.template == 'product.html' and p.category == page.category and p.slug != page.slug %}
+      {% if related|length < 3 %}
+      {% set _ = related.append(1) %}
+      <article class="card">
+        {% if p.images and p.images[0].src %}
+        <div class="card-img contain"><img src="{{ p.images[0].src }}" alt="{{ p.h1 }}" loading="lazy"></div>
+        {% endif %}
+        <div class="card-body">
+          <h3>{{ p.h1 }}</h3>
+          <span class="card-link">לפרטים {{ m.arrow_start() }}</span>
+        </div>
+        <a class="stretched" href="/{{ p.slug|urlquote }}/" aria-label="{{ p.h1 }}"></a>
+      </article>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

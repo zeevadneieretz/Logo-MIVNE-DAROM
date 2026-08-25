@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_hero(page, [{'label': page.h1}]) }}
+
+<section class="section">
+  <div class="container prose">
+    {{ m.render_blocks(page.blocks) }}
+  </div>
+</section>
+
+{% if page.tables %}
+<section class="section section-paper">
+  <div class="container">
+    <div class="sec-head">
+      <p class="overline">נתונים הנדסיים</p>
+      <h2>טבלאות מידות ועומסים</h2>
+      <p class="sub">מפתחים מרביים בס"מ לפי עובי פאנל, צורת הסמכה ומשקל עצמי</p>
+    </div>
+    {% for t in page.tables %}
+    {{ m.spec_table(t) }}
+    {% endfor %}
+    <p class="table-note">* טבלאות מפורטות לכל מוצר מופיעות בעמוד המוצר. לתכנון מפורט היוועצו במהנדסי החברה: <span dir="ltr">{{ site.contact.phone }}</span></p>
+  </div>
+</section>
+{% endif %}
+
+<section class="section">
+  <div class="container">
+    <div class="sec-head"><h2>טבלאות מלאות לפי מוצר</h2></div>
+    <div class="grid grid-3">
+      {% for p in pages if p.template == 'product.html' and p.tables %}
+      <article class="card">
+        <div class="card-body">
+          <h3>{{ p.h1 }}</h3>
+          <p>{{ p.tables|length }} טבלאות מידות ועומסים</p>
+          <span class="card-link">לטבלאות {{ m.arrow_start() }}</span>
+        </div>
+        <a class="stretched" href="/{{ p.slug|urlquote }}/" aria-label="{{ p.h1 }}"></a>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

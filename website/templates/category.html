@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block jsonld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ page.h1|tojson }},
+  "itemListElement": [
+    {% for p in page.products %}
+    { "@type": "ListItem", "position": {{ loop.index }}, "name": {{ p.title|tojson }}, "url": "{{ site.url }}/{{ p.slug|urlquote }}/" }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+{{ m.page_hero(page, [{'label': page.h1}]) }}
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid-3">
+      {% for p in page.products %}
+      <article class="card reveal d{{ loop.index0 % 3 }}">
+        {% if p.img %}
+        <div class="card-img contain"><img src="{{ p.img }}" alt="{{ p.alt }}" loading="lazy"></div>
+        {% endif %}
+        <div class="card-body">
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.desc }}</p>
+          <span class="card-link">למפרט המלא {{ m.arrow_start() }}</span>
+        </div>
+        <a class="stretched" href="/{{ p.slug|urlquote }}/" aria-label="{{ p.title }}"></a>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if page.blocks %}
+<section class="section section-paper">
+  <div class="container prose">
+    {{ m.render_blocks(page.blocks) }}
+  </div>
+</section>
+{% endif %}
+
+{% if page.tables %}
+<section class="section">
+  <div class="container">
+    {% for t in page.tables %}
+    {{ m.spec_table(t) }}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}
