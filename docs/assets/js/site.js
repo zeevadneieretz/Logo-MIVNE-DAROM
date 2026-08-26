@@ -218,6 +218,24 @@
     });
   }
 
+  /* ---------- Hero video: load only where it pays off ---------- */
+  var heroVideo = doc.querySelector('.hero-media video[data-video]');
+  if (heroVideo) {
+    var conn = navigator.connection || {};
+    var wantVideo = window.matchMedia('(min-width: 768px)').matches &&
+      !reduceMotion && !conn.saveData &&
+      ['slow-2g', '2g'].indexOf(conn.effectiveType) === -1;
+    if (wantVideo) {
+      var src = doc.createElement('source');
+      src.src = heroVideo.getAttribute('data-video');
+      src.type = 'video/mp4';
+      heroVideo.appendChild(src);
+      heroVideo.load();
+      var p = heroVideo.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+  }
+
   /* ---------- Panel selection wizard ---------- */
   var wizard = doc.querySelector('.wizard');
   if (wizard) {

@@ -91,7 +91,7 @@ def main():
     # ---- sitemap.xml ----
     urls = []
     for slug, canonical, priority, changefreq in rendered:
-        if slug in ("404", "מדיניות-פרטיות", "הצהרת-נגישות", "פרוייקטים", "מדיניות-פרטיות-2", "קטלוגים-פנל-מבודד"):
+        if slug in ("404", "פרוייקטים", "מדיניות-פרטיות-2", "קטלוגים-פנל-מבודד"):
             continue
         urls.append(
             f"  <url>\n    <loc>{canonical}</loc>\n"

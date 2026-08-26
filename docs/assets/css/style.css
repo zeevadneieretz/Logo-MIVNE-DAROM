@@ -112,7 +112,7 @@ strong { color: var(--head); font-weight: 700; }
   transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s;
   text-align: center; white-space: nowrap;
 }
-.btn svg { flex: none; }
+.btn svg { flex: none; width: 18px; height: 18px; }
 .btn-primary { background: var(--green-strong); color: #fff; box-shadow: 0 6px 18px var(--green-glow); }
 .btn-primary:hover { background: #337A3D; color: #fff; transform: translateY(-2px); box-shadow: 0 10px 26px var(--green-glow); }
 .btn-dark { background: var(--steel); color: #fff; }
@@ -268,7 +268,8 @@ body.nav-open .mobile-nav { transform: translateX(0); visibility: visible; }
 .stat:first-child { border-inline-start: 0; }
 .stat b { display: block; color: #fff; font-size: clamp(1.6rem, 2.6vw, 2.3rem); font-weight: 800; line-height: 1.1; }
 .stat b .unit { color: var(--green); font-size: .6em; font-weight: 700; margin-inline-start: .15em; }
-.stat span { color: #9FB2BB; font-size: .92rem; }
+.stat > span { color: #9FB2BB; font-size: .92rem; }
+.stat b span { color: #fff; }
 
 /* ---------- Sections ---------- */
 .section { padding-block: var(--sec-pad); }
@@ -402,19 +403,19 @@ body.nav-open .mobile-nav { transform: translateX(0); visibility: visible; }
   -webkit-overflow-scrolling: touch;
 }
 .table-wrap + .table-wrap, .table-note + .table-wrap { margin-top: 1.4rem; }
-table.spec { border-collapse: collapse; width: 100%; min-width: 640px; font-size: .93rem; font-variant-numeric: tabular-nums; }
+table.spec { border-collapse: collapse; width: 100%; min-width: 640px; font-size: .89rem; font-variant-numeric: tabular-nums; }
 table.spec caption {
   text-align: start; font-weight: 700; color: var(--head); font-size: 1.02rem;
   padding: 1rem 1.2rem .6rem; caption-side: top;
 }
-table.spec th, table.spec td { padding: .6rem .8rem; text-align: center; border-top: 1px solid var(--line); }
+table.spec th, table.spec td { padding: .5rem .55rem; text-align: center; border-top: 1px solid var(--line); }
 table.spec thead th {
   background: var(--steel); color: #fff; font-weight: 600; font-size: .88rem;
   border-top: 0; position: sticky; top: 0;
 }
 table.spec tbody tr:nth-child(even) { background: #FAFCFC; }
 table.spec tbody tr:hover { background: var(--green-soft); }
-table.spec td:first-child, table.spec th:first-child { font-weight: 700; color: var(--head); }
+table.spec tbody td:first-child, table.spec tbody th:first-child { font-weight: 700; color: var(--head); }
 .table-note { color: var(--muted); font-size: .88rem; margin: .6rem .2rem 0; }
 
 /* Key-value spec list (product pages) */
@@ -565,7 +566,7 @@ table.spec td:first-child, table.spec th:first-child { font-weight: 700; color: 
   display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.1fr; gap: 2.4rem;
   padding-block: clamp(2.6rem, 6vw, 4rem);
 }
-.site-footer h4 { color: #fff; font-size: 1.02rem; margin-bottom: 1rem; font-weight: 700; }
+.site-footer .ft-title { color: #fff; font-size: 1.02rem; margin-bottom: 1rem; font-weight: 700; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
 .site-footer a { color: #A9BBC4; }
 .site-footer a:hover { color: var(--green); }

@@ -32,9 +32,7 @@
 <!-- ============ HERO ============ -->
 <section class="hero">
   <div class="hero-media" aria-hidden="true">
-    <video autoplay muted loop playsinline preload="metadata" poster="{{ page.hero.poster }}">
-      <source src="{{ page.hero.video }}" type="video/mp4">
-    </video>
+    <video muted loop playsinline preload="none" poster="{{ page.hero.poster }}" data-video="{{ page.hero.video }}"></video>
   </div>
   <div class="container hero-content">
     <p class="overline">{{ page.hero.overline }}</p>
