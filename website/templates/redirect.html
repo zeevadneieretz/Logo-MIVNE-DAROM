@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ page.title }}</title>
-<meta http-equiv="refresh" content="0; url=/{{ page.target|urlquote }}/">
+<meta http-equiv="refresh" content="0; url=../{{ page.target|urlquote }}/">
 <link rel="canonical" href="{{ site.url }}/{{ page.target|urlquote }}/">
 <meta name="robots" content="noindex">
-<script>location.replace('/' + encodeURIComponent({{ page.target|tojson }}) + '/');</script>
+<script>location.replace('../' + encodeURIComponent({{ page.target|tojson }}) + '/');</script>
 </head>
 <body>
 <p style="font-family:sans-serif; text-align:center; padding:3rem">
-העמוד עבר. <a href="/{{ page.target|urlquote }}/">לחצו כאן למעבר</a>
+העמוד עבר. <a href="../{{ page.target|urlquote }}/">לחצו כאן למעבר</a>
 </p>
 </body>
 </html>

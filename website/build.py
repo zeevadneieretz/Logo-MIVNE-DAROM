@@ -71,6 +71,11 @@ def main():
         slug = page["slug"]
         canonical = SITE_URL + "/" if slug == "index" else f"{SITE_URL}/{quote(slug, safe='')}/"
         html = template.render(site=site, page=page, pages=pages, canonical=canonical)
+        # Rewrite root-absolute URLs to relative ones so the site works both at
+        # the domain root (www.mivnedarom.co.il) and under a sub-path preview
+        # (username.github.io/repo/). Canonical/og/JSON-LD keep the absolute domain.
+        prefix = "" if slug in ("index", "404") else "../"
+        html = re.sub(r'((?:href|src|action|poster|data-video)=")/(?!/)', r"\1" + prefix, html)
         if slug == "index":
             dest = OUT / "index.html"
         else:

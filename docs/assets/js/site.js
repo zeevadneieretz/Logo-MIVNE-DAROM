@@ -262,7 +262,8 @@
             var res = wizard.querySelector('.wizard-result');
             res.hidden = false;
             res.querySelector('.wizard-product').textContent = r.title;
-            res.querySelector('.wizard-link').setAttribute('href', '/' + encodeURIComponent(r.slug) + '/');
+            /* relative link — the wizard lives on the homepage only */
+            res.querySelector('.wizard-link').setAttribute('href', encodeURIComponent(r.slug) + '/');
           }
         }
       });
