@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block jsonld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": {{ page.h1|tojson }},
+  "description": {{ page.description|tojson }},
+  "mainEntity": { "@id": "{{ site.url }}/#org" }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+{{ m.page_hero(page, [{'label': 'אודות'}]) }}
+
+<section class="section">
+  <div class="container split">
+    <div class="reveal">
+      <p class="overline">מי אנחנו</p>
+      <h2>יצרני פנלים מבודדים — מהדור הבא</h2>
+      {% for p in page.story %}
+      <p>{{ p }}</p>
+      {% endfor %}
+      <p>{{ page.certs_note }}</p>
+      <div class="badges">
+        <span class="badge">ISO 9001</span>
+        <span class="badge">ISO 14001</span>
+        <span class="badge">ISO 45001</span>
+        <span class="badge">ת"י 755</span>
+      </div>
+    </div>
+    <div class="media reveal d1">
+      <div class="video-frame">
+        <iframe src="https://www.youtube-nocookie.com/embed/{{ page.youtube }}" title="סרט תדמית — מבנה דרום" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-paper">
+  <div class="container split">
+    <div class="media reveal">
+      <img src="{{ page.aerial }}" alt="מבט אווירי על מפעל מבנה דרום בפארק תעשיות עידן הנגב" loading="lazy" width="1240" height="700">
+      <span class="badge-over">{{ m.icon('factory') }} פארק תעשיות עידן הנגב</span>
+    </div>
+    <div class="reveal d1">
+      <p class="overline">{{ page.custom.title }}</p>
+      <h2>כל פנל — בדיוק כפי שתכננתם</h2>
+      <p>{{ page.custom.intro }}</p>
+      <ul class="checklist">
+        {% for i in page.custom['items'] %}
+        <li><span class="ck">{{ m.icon('check') }}</span><span>{{ i }}</span></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="uses-title">
+  <div class="container">
+    <div class="sec-head center">
+      <p class="overline">שימושים וייעודים</p>
+      <h2 id="uses-title">בנייה קלה לכל תחום</h2>
+      <p class="sub">קירות, גגות ומחיצות — לסוגי מבנים בתחומי פעילות מגוונים</p>
+    </div>
+    <div class="grid grid-2">
+      {% for u in page.uses %}
+      <div class="feature reveal d{{ loop.index0 % 2 }}">
+        <h3>{{ u.title }}</h3>
+        <p>{{ u.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="center mt-2" style="color:var(--muted)">צוות המהנדסים והיועצים של חברתנו ישמח לעמוד לרשותכם בכל עת.</p>
+  </div>
+</section>
+{% endblock %}

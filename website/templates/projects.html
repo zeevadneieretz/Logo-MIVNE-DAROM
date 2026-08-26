@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_hero(page, [{'label': page.h1}]) }}
+
+<section class="section">
+  <div class="container">
+    <h2 class="visually-hidden">רשימת הפרויקטים</h2>
+    <div class="grid grid-2">
+      {% for p in page.projects %}
+      <article class="card reveal">
+        {% if p.img %}
+        <div class="card-img"><img src="{{ p.img }}" alt="{{ p.title }}" loading="lazy"></div>
+        {% endif %}
+        <div class="card-body">
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.desc }}</p>
+          <span class="card-link">לפרויקט המלא {{ m.arrow_start() }}</span>
+        </div>
+        <a class="stretched" href="/{{ p.slug|urlquote }}/" aria-label="{{ p.title }}"></a>
+      </article>
+      {% endfor %}
+
+      <div class="feature reveal d1" style="display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:.6rem; background:var(--green-soft); border-color:transparent">
+        <h3 style="font-size:1.3rem">הפרויקט שלכם הבא?</h3>
+        <p style="font-size:1rem">אנו מלווים מאות פרויקטים ברחבי הארץ — ממחסנים ועד מפעלים שלמים. ספרו לנו על הפרויקט שלכם ונשמח להצטרף למסע.</p>
+        <a class="btn btn-primary" href="/צור-קשר/">דברו איתנו {{ m.arrow_start() }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

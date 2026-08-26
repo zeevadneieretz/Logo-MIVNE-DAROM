@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_hero(page, [{'label': page.h1}]) }}
+
+<section class="section">
+  <div class="container">
+    {% if page.download %}
+    <div class="center reveal" style="margin-bottom:2.5rem">
+      <a class="btn btn-primary btn-lg" href="{{ page.download.href }}" download>{{ m.icon('download') }} {{ page.download.label }}</a>
+    </div>
+    {% endif %}
+
+    {% if page.images %}
+    <div class="gallery" style="grid-template-columns: repeat(2, 1fr);">
+      {% for im in page.images %}
+      <a href="{{ im.src }}" data-lightbox aria-label="{{ im.alt or page.h1 }}" style="aspect-ratio:auto; background:#fff; border:1px solid var(--line)">
+        <img src="{{ im.src }}" alt="{{ im.alt }}" loading="lazy" style="object-fit:contain">
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% if page.blocks %}
+<section class="section section-paper">
+  <div class="container prose">
+    {{ m.render_blocks(page.blocks) }}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

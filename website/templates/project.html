@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block content %}
+{{ m.page_hero(page, [{'slug': 'פרויקטים', 'label': 'פרויקטים'}, {'label': page.h1}]) }}
+
+<section class="section">
+  <div class="container">
+    <div class="split" style="align-items:flex-start">
+      <div class="prose">
+        {% for p in page.paragraphs %}
+        <p>{{ p }}</p>
+        {% endfor %}
+      </div>
+      <div>
+        <ul class="kv" style="grid-template-columns:1fr">
+          {% for i in page.meta %}
+          <li><b>{{ i.k }}</b><span>{{ i.v }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    {% if page.gallery %}
+    <div class="sec-head mt-3"><h2>גלריית הפרויקט</h2></div>
+    <div class="gallery">
+      {% for g in page.gallery %}
+      <a href="{{ g.src }}" data-lightbox aria-label="{{ g.alt or page.h1 }}">
+        <img src="{{ g.src }}" alt="{{ g.alt }}" loading="lazy">
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

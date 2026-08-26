@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block jsonld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "{{ site.url }}/#business",
+  "name": "מבנה דרום פנלים מבודדים",
+  "image": "{{ site.url }}/assets/img/factory-aerial.jpg",
+  "url": "{{ site.url }}/",
+  "telephone": "{{ site.contact.phone_intl }}",
+  "email": "{{ site.contact.email }}",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "רחוב השלושה 21, פארק תעשיות עידן הנגב",
+    "addressCountry": "IL"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Sunday","Monday","Tuesday","Wednesday","Thursday"],
+    "opens": "08:00",
+    "closes": "17:00"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-media" aria-hidden="true">
+    <video muted loop playsinline preload="none" poster="{{ page.hero.poster }}" data-video="{{ page.hero.video }}"></video>
+  </div>
+  <div class="container hero-content">
+    <p class="overline">{{ page.hero.overline }}</p>
+    <h1>{{ page.hero.h1_a }}<br><span class="accent">{{ page.hero.h1_b }}</span></h1>
+    <p class="lead">{{ page.hero.lead }}</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary btn-lg" href="/צור-קשר/">קבלת הצעת מחיר</a>
+      <a class="btn btn-ghost btn-lg" href="#products">צפו במוצרים</a>
+    </div>
+  </div>
+</section>
+<div class="hero-stats">
+  <div class="container-wide">
+    {% for s in page.stats %}
+    <div class="stat">
+      <b><span data-count="{{ s.num }}">0</span><span class="unit">{{ s.unit }}</span></b>
+      <span>{{ s.label }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ============ PRODUCT CATEGORIES ============ -->
+<section class="section" id="products" aria-labelledby="products-title">
+  <div class="container-wide">
+    <div class="sec-head center reveal">
+      <p class="overline">קווי המוצרים שלנו</p>
+      <h2 id="products-title">פתרון מושלם לכל מבנה</h2>
+      <p class="sub">ארבעה קווי מוצרים, אינסוף אפשרויות התאמה — הכל מיוצר בקו רציף אחד מהמתקדמים בעולם</p>
+    </div>
+    <div class="grid grid-4">
+      {% for t in page.tiles %}
+      <div class="tile reveal d{{ loop.index0 }}">
+        {% if t.img %}<img src="{{ t.img }}" alt="" loading="lazy">{% endif %}
+        <div class="tile-body">
+          <h3>{{ t.title }}</h3>
+          <p>{{ t.desc }}</p>
+          <span class="tile-cta">לפרטים {{ m.arrow_start() }}</span>
+        </div>
+        <a class="stretched" href="/{{ t.slug|urlquote }}/" aria-label="{{ t.title }}"></a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT / FACTORY ============ -->
+<section class="section section-paper" aria-labelledby="about-title">
+  <div class="container split">
+    <div class="reveal">
+      <p class="overline">המפעל שלנו</p>
+      <h2 id="about-title">טכנולוגיה עולמית, תוצרת ישראל</h2>
+      <p>{{ page.about_teaser.text }}</p>
+      <ul class="checklist">
+        {% for c in page.about_teaser.checks %}
+        <li><span class="ck">{{ m.icon('check') }}</span><span>{{ c }}</span></li>
+        {% endfor %}
+      </ul>
+      <a class="btn btn-dark" href="/אודות-מבנה-דרום/">להכיר אותנו {{ m.arrow_start() }}</a>
+    </div>
+    <div class="media reveal d1">
+      <img src="{{ page.about_teaser.img }}" alt="מפעל מבנה דרום — ייצור פנלים מבודדים" loading="lazy" width="1240" height="825">
+      <span class="badge-over">{{ m.icon('factory') }} קו ייצור רציף · 150 מטר</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CORES ============ -->
+<section class="section section-dark" aria-labelledby="cores-title">
+  <span class="ghost-word" aria-hidden="true">בידוד</span>
+  <div class="container">
+    <div class="sec-head center reveal">
+      <p class="overline">ליבות הבידוד</p>
+      <h2 id="cores-title">הלב של כל פנל: חומר הבידוד</h2>
+      <p class="sub">שני לוחות מתכת — וביניהם הליבה שקובעת הכל: בידוד תרמי, אקוסטי ועמידות אש. בחרו את הליבה המתאימה לפרויקט</p>
+    </div>
+    <div class="feature-row">
+      {% for c in page.cores %}
+      <div class="feature reveal d{{ loop.index0 }}">
+        <div class="ficon">{{ m.icon(c.icon) }}</div>
+        <h3>{{ c.title }}</h3>
+        <p>{{ c.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY US ============ -->
+<section class="section" aria-labelledby="why-title">
+  <div class="container">
+    <div class="sec-head center reveal">
+      <p class="overline">למה מבנה דרום</p>
+      <h2 id="why-title">היתרון של לעבוד ישירות עם היצרן</h2>
+    </div>
+    <div class="feature-row">
+      {% for w in page.why %}
+      <div class="feature reveal d{{ loop.index0 % 3 }}">
+        <div class="ficon">{{ m.icon(w.icon) }}</div>
+        <h3>{{ w.title }}</h3>
+        <p>{{ w.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ VIDEO ============ -->
+<section class="section section-paper" aria-labelledby="video-title">
+  <div class="container split">
+    <div class="media reveal">
+      <div class="video-frame">
+        <iframe src="https://www.youtube-nocookie.com/embed/{{ page.about_teaser.youtube }}" title="סרט תדמית — מבנה דרום" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="reveal d1">
+      <p class="overline">סרט חברה</p>
+      <h2 id="video-title">הציצו פנימה — כך נולד פנל</h2>
+      <p>מסע של דקה וחצי אל תוך המפעל בעידן הנגב: מגלילי הפלדה, דרך קו הייצור הרציף ועד למשאיות שיוצאות אליכם לשטח. ככה נראית איכות כשרואים אותה מבפנים.</p>
+      <a class="btn btn-outline" href="/אודות-מבנה-דרום/">עוד על המפעל {{ m.arrow_start() }}</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPLICATIONS ============ -->
+<section class="section" aria-labelledby="apps-title">
+  <div class="container">
+    <div class="sec-head center reveal">
+      <p class="overline">תחומי פעילות</p>
+      <h2 id="apps-title">איפה תפגשו את הפנלים שלנו</h2>
+    </div>
+    <div class="grid grid-3">
+      {% for a in page.applications %}
+      <div class="feature reveal d{{ loop.index0 % 3 }}">
+        <h3>{{ a.title }}</h3>
+        <p>{{ a.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ PANEL WIZARD ============ -->
+<section class="section section-paper" aria-labelledby="wizard-title">
+  <div class="container" style="max-width:880px">
+    <div class="sec-head center reveal">
+      <p class="overline">מדריך בחירה</p>
+      <h2 id="wizard-title">{{ page.wizard.title }}</h2>
+      <p class="sub">{{ page.wizard.sub }}</p>
+    </div>
+    <div class="wizard reveal" data-wizard='{{ page.wizard.results|tojson }}'>
+      <div class="wizard-step" data-step="1">
+        <p class="wizard-q">{{ page.wizard.q1.label }}</p>
+        <div class="wizard-opts">
+          {% for o in page.wizard.q1.options %}
+          <button type="button" class="wizard-opt" data-q="1" data-v="{{ o.v }}">{{ o.t }}</button>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="wizard-step" data-step="2" hidden>
+        <p class="wizard-q">{{ page.wizard.q2.label }}</p>
+        <div class="wizard-opts">
+          {% for o in page.wizard.q2.options %}
+          <button type="button" class="wizard-opt" data-q="2" data-v="{{ o.v }}">{{ o.t }}</button>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="wizard-step" data-step="3" hidden>
+        <p class="wizard-q">{{ page.wizard.q3.label }}</p>
+        <div class="wizard-opts">
+          {% for o in page.wizard.q3.options %}
+          <button type="button" class="wizard-opt" data-q="3" data-v="{{ o.v }}">{{ o.t }}</button>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="wizard-result" hidden>
+        <p class="wizard-q">הפנל המומלץ עבורכם:</p>
+        <p class="wizard-product"></p>
+        <div class="hero-ctas" style="justify-content:center">
+          <a class="btn btn-primary wizard-link" href="#">למפרט המלא</a>
+          <a class="btn btn-outline" href="/צור-קשר/">הצעת מחיר</a>
+          <button type="button" class="btn btn-outline wizard-restart">התחלה מחדש</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURED PROJECT ============ -->
+<section class="section section-ink" aria-labelledby="proj-title">
+  <span class="ghost-word" aria-hidden="true">פרויקטים</span>
+  <div class="container split">
+    <div class="reveal">
+      <p class="overline">פרויקט נבחר</p>
+      <h2 id="proj-title">{{ page.project_teaser.title }}</h2>
+      <p>{{ page.project_teaser.text }}</p>
+      <a class="btn btn-primary" href="/{{ page.project_teaser.slug|urlquote }}/">לסיפור המלא {{ m.arrow_start() }}</a>
+    </div>
+    <div class="media reveal d1">
+      <img src="{{ page.project_teaser.img }}" alt="{{ page.project_teaser.title }}" loading="lazy" width="1240" height="930">
+    </div>
+  </div>
+</section>
+
+<!-- ============ ARTICLES TEASER ============ -->
+<section class="section section-paper" aria-labelledby="articles-title">
+  <div class="container">
+    <div class="sec-head reveal" style="display:flex; align-items:flex-end; justify-content:space-between; max-width:none; gap:1rem; flex-wrap:wrap;">
+      <div>
+        <p class="overline">ידע מקצועי</p>
+        <h2 id="articles-title" style="margin-bottom:0">מאמרים ומדריכים</h2>
+      </div>
+      <a class="btn btn-outline" href="/מאמרים/">לכל המאמרים {{ m.arrow_start() }}</a>
+    </div>
+    <div class="grid grid-3">
+      {% for slug in page.articles_teaser %}
+      {% for p in pages if p.slug == slug %}
+      <article class="card reveal d{{ loop.index0 }}">
+        {% if p.images and p.images[0].src %}
+        <div class="card-img"><img src="{{ p.images[0].src }}" alt="{{ p.images[0].alt or p.h1 }}" loading="lazy"></div>
+        {% endif %}
+        <div class="card-body">
+          <h3>{{ p.h1 }}</h3>
+          <p>{{ p.teaser }}</p>
+          <span class="card-link">לקריאה {{ m.arrow_start() }}</span>
+        </div>
+        <a class="stretched" href="/{{ p.slug|urlquote }}/" aria-label="{{ p.h1 }}"></a>
+      </article>
+      {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section" aria-labelledby="faq-title">
+  <div class="container" style="max-width:880px">
+    <div class="sec-head center reveal">
+      <p class="overline">שאלות נפוצות</p>
+      <h2 id="faq-title">כל מה שרציתם לדעת</h2>
+    </div>
+    <div class="accordion">
+      {% for f in page.faq %}
+      <div class="accordion-item reveal">
+        <button type="button" class="accordion-head" aria-expanded="false">
+          {{ f.q }}
+          <svg class="caret" width="16" height="16" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="accordion-body"><p>{{ f.a }}</p></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for f in page.faq %}
+    {
+      "@type": "Question",
+      "name": {{ f.q|tojson }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ f.a|tojson }} }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endblock %}
